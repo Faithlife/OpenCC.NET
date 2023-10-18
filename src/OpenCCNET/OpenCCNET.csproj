@@ -10,8 +10,12 @@
     <IsPackable>true</IsPackable>
   </PropertyGroup>
 
+  <Target Name="BuildResourcesZip" BeforeTargets="BeforeBuild">
+    <ZipDirectory SourceDirectory="Dictionary" DestinationFile="Dictionary.zip" Overwrite="true" />
+  </Target>
+
   <ItemGroup>
-    <EmbeddedResource Include="Dictionary\*.txt" />
+    <EmbeddedResource Include="Dictionary.zip" LogicalName="Dictionary.zip" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>

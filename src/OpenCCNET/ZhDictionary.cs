@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace OpenCCNET
 {
@@ -96,36 +96,37 @@ namespace OpenCCNET
             /// </summary>
             public static void Initialize()
             {
-                STCharacters = LoadDictionary(@"STCharacters");
-                STPhrases = LoadDictionary(@"STPhrases");
-                TSCharacters = LoadDictionary(@"TSCharacters");
-                TSPhrases = LoadDictionary(@"TSPhrases");
-                TWVariants = LoadDictionary(@"TWVariants");
-                TWPhrases = LoadDictionary(@"TWPhrasesIT", @"TWPhrasesName", @"TWPhrasesOther");
-                TWVariantsRev = LoadDictionaryReversed(@"TWVariants");
-                TWVariantsRevPhrases = LoadDictionary(@"TWVariantsRevPhrases");
-                TWPhrasesRev = LoadDictionaryReversed(@"TWPhrasesIT", @"TWPhrasesName", @"TWPhrasesOther");
-                HKVariants = LoadDictionary(@"HKVariants");
-                HKVariantsRev = LoadDictionaryReversed(@"HKVariants");
-                HKVariantsRevPhrases = LoadDictionary(@"HKVariantsRevPhrases");
-                JPVariants = LoadDictionary(@"JPVariants");
-                JPVariantsRev = LoadDictionaryReversed(@"JPVariants");
-                JPShinjitaiCharacters = LoadDictionary(@"JPShinjitaiCharacters");
-                JPShinjitaiPhrases = LoadDictionary(@"JPShinjitaiPhrases");
+                using var zipArchive = new ZipArchive(typeof(ZhDictionary).Assembly.GetManifestResourceStream("Dictionary.zip") ?? throw new InvalidOperationException("Missing dictionary zip file."));
+                STCharacters = LoadDictionary(zipArchive, "STCharacters");
+                STPhrases = LoadDictionary(zipArchive, "STPhrases");
+                TSCharacters = LoadDictionary(zipArchive, "TSCharacters");
+                TSPhrases = LoadDictionary(zipArchive, "TSPhrases");
+                TWVariants = LoadDictionary(zipArchive, "TWVariants");
+                TWPhrases = LoadDictionary(zipArchive, "TWPhrasesIT", "TWPhrasesName", "TWPhrasesOther");
+                TWVariantsRev = LoadDictionaryReversed(zipArchive, "TWVariants");
+                TWVariantsRevPhrases = LoadDictionary(zipArchive, "TWVariantsRevPhrases");
+                TWPhrasesRev = LoadDictionaryReversed(zipArchive, "TWPhrasesIT", "TWPhrasesName", "TWPhrasesOther");
+                HKVariants = LoadDictionary(zipArchive, "HKVariants");
+                HKVariantsRev = LoadDictionaryReversed(zipArchive, "HKVariants");
+                HKVariantsRevPhrases = LoadDictionary(zipArchive, "HKVariantsRevPhrases");
+                JPVariants = LoadDictionary(zipArchive, "JPVariants");
+                JPVariantsRev = LoadDictionaryReversed(zipArchive, "JPVariants");
+                JPShinjitaiCharacters = LoadDictionary(zipArchive, "JPShinjitaiCharacters");
+                JPShinjitaiPhrases = LoadDictionary(zipArchive, "JPShinjitaiPhrases");
             }
 
             /// <summary>
             /// 加载字典文件
             /// </summary>
             /// <param name="dictionaryNames">字典名称</param>
-            private static IDictionary<string, string> LoadDictionary(params string[] dictionaryNames)
+            private static IDictionary<string, string> LoadDictionary(ZipArchive zipArchive, params string[] dictionaryNames)
             {
-                var dictionaryPaths = dictionaryNames.Select(name => $"OpenCCNET.Dictionary.{name}.txt")
+                var dictionaryPaths = dictionaryNames.Select(name => $"{name}.txt")
                     .ToList();
                 var dictionary = new Dictionary<string, string>();
                 foreach (var path in dictionaryPaths)
                 {
-                    using (var sr = new StreamReader(typeof(ZhDictionary).Assembly.GetManifestResourceStream(path) ?? throw new InvalidOperationException($"Missing dictionary: {path}")))
+                    using (var sr = new StreamReader(zipArchive.GetEntry(path)?.Open() ?? throw new InvalidOperationException($"Missing dictionary {path}.")))
                     {
                         string line;
                         while ((line = sr.ReadLine()) != null)
@@ -143,13 +144,13 @@ namespace OpenCCNET
             /// 反向加载字典文件
             /// </summary>
             /// <param name="dictionaryNames">字典名称</param>
-            private static IDictionary<string, string> LoadDictionaryReversed(params string[] dictionaryNames)
+            private static IDictionary<string, string> LoadDictionaryReversed(ZipArchive zipArchive, params string[] dictionaryNames)
             {
-                var dictionaryPaths = dictionaryNames.Select(name => $"OpenCCNET.Dictionary.{name}.txt");
+                var dictionaryPaths = dictionaryNames.Select(name => $"{name}.txt");
                 var dictionary = new Dictionary<string, string>();
                 foreach (var path in dictionaryPaths)
                 {
-                    using (var sr = new StreamReader(typeof(ZhDictionary).Assembly.GetManifestResourceStream(path) ?? throw new InvalidOperationException($"Missing dictionary: {path}")))
+                    using (var sr = new StreamReader(zipArchive.GetEntry(path)?.Open() ?? throw new InvalidOperationException($"Missing dictionary {path}.")))
                     {
                         string line;
                         while ((line = sr.ReadLine()) != null)
