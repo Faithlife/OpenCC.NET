@@ -1,16 +1,10 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 namespace OpenCCNET.Tests
 {
 	[TestFixture]
 	internal class ZhConverterTests
 	{
-		[OneTimeSetUp]
-		public void SetUp()
-		{
-			ZhConverter.Initialize();
-		}
-
 		[Test]
 		public void HansToFromTw()
 		{

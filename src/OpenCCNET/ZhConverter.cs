@@ -6,15 +6,6 @@ namespace OpenCCNET
 {
     public static partial class ZhConverter
     {
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public static void Initialize()
-        {
-            ZhSegment.Initialize();
-            ZhDictionary.Initialize();
-        }
-
         #region 简体中文
 
         /// <summary>
