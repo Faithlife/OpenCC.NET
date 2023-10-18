@@ -1,3 +1,7 @@
+**NOTE:** Faithlife.OpenCCNET uses Faithlife.JiebaNet.Segmenter. See [release notes](ReleaseNotes.md) for details.
+
+---
+
 # OpenCC.NET
 
 [![GitHub license](https://img.shields.io/github/license/CosineG/OpenCC.NET)](https://github.com/CosineG/OpenCC.NET/blob/master/LICENSE) 
