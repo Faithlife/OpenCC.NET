@@ -94,7 +94,6 @@ namespace OpenCCNET
             /// <summary>
             /// 加载所有字典文件
             /// </summary>
-            /// <param name="dictionaryDirectory"></param>
             public static void Initialize()
             {
                 STCharacters = LoadDictionary(@"STCharacters");
