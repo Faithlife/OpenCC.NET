@@ -20,11 +20,6 @@
 			<PackageCopyToOutput>True</PackageCopyToOutput>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Include="JiebaResource\*.*">
-			<Pack>True</Pack>
-			<PackageCopyToOutput>True</PackageCopyToOutput>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,7 +34,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="jieba.NET" Version="0.42.2" />
+		<PackageReference Include="Faithlife.JiebaNet.Segmenter" Version="0.1.0" />
 	</ItemGroup>
 
 </Project>

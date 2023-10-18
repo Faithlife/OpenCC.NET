@@ -10,11 +10,9 @@ namespace OpenCCNET
         /// 初始化
         /// </summary>
         /// <param name="dictionaryDirectory">字典文件夹路径</param>
-        /// <param name="jiebaResourceDirectory">Jieba.NET资源路径</param>
-        public static void Initialize(string dictionaryDirectory = "Dictionary",
-            string jiebaResourceDirectory = "JiebaResource")
+        public static void Initialize(string dictionaryDirectory = "Dictionary")
         {
-            ZhSegment.Initialize(jiebaResourceDirectory);
+            ZhSegment.Initialize();
             ZhDictionary.Initialize(dictionaryDirectory);
         }
 

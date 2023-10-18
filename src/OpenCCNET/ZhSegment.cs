@@ -18,9 +18,8 @@ namespace OpenCCNET
             /// </summary>
             public static JiebaSegmenter Jieba = new JiebaSegmenter();
 
-            public static void Initialize(string jiebaResourceDirectory = "JiebaResource")
+            public static void Initialize()
             {
-                ConfigManager.ConfigFileBaseDir = jiebaResourceDirectory;
                 // 通过调用一次jieba分词来提前加载所需资源
                 Jieba.Cut(string.Empty);
             }
