@@ -15,11 +15,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Include="Dictionary\*.txt">
-			<Pack>True</Pack>
-			<PackageCopyToOutput>True</PackageCopyToOutput>
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
+		<EmbeddedResource Include="Dictionary\*.txt" />
 	</ItemGroup>
 
 	<ItemGroup>

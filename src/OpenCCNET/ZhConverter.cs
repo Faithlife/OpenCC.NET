@@ -9,11 +9,10 @@ namespace OpenCCNET
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="dictionaryDirectory">字典文件夹路径</param>
-        public static void Initialize(string dictionaryDirectory = "Dictionary")
+        public static void Initialize()
         {
             ZhSegment.Initialize();
-            ZhDictionary.Initialize(dictionaryDirectory);
+            ZhDictionary.Initialize();
         }
 
         #region 简体中文

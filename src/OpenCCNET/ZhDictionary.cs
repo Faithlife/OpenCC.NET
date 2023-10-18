@@ -11,11 +11,6 @@ namespace OpenCCNET
         public static class ZhDictionary
         {
             /// <summary>
-            /// 字典目录
-            /// </summary>
-            private static string _dictionaryDirectory;
-
-            /// <summary>
             /// 简体中文=>繁体中文（OpenCC标准）单字转换字典
             /// </summary>
             public static IDictionary<string, string> STCharacters { get; set; }
@@ -100,9 +95,8 @@ namespace OpenCCNET
             /// 加载所有字典文件
             /// </summary>
             /// <param name="dictionaryDirectory"></param>
-            public static void Initialize(string dictionaryDirectory = "Dictionary")
+            public static void Initialize()
             {
-                _dictionaryDirectory = dictionaryDirectory;
                 STCharacters = LoadDictionary(@"STCharacters");
                 STPhrases = LoadDictionary(@"STPhrases");
                 TSCharacters = LoadDictionary(@"TSCharacters");
@@ -127,12 +121,12 @@ namespace OpenCCNET
             /// <param name="dictionaryNames">字典名称</param>
             private static IDictionary<string, string> LoadDictionary(params string[] dictionaryNames)
             {
-                var dictionaryPaths = dictionaryNames.Select(name => Path.Combine(_dictionaryDirectory, $"{name}.txt"))
+                var dictionaryPaths = dictionaryNames.Select(name => $"OpenCCNET.Dictionary.{name}.txt")
                     .ToList();
                 var dictionary = new Dictionary<string, string>();
                 foreach (var path in dictionaryPaths)
                 {
-                    using (var sr = new StreamReader(path))
+                    using (var sr = new StreamReader(typeof(ZhDictionary).Assembly.GetManifestResourceStream(path) ?? throw new InvalidOperationException($"Missing dictionary: {path}")))
                     {
                         string line;
                         while ((line = sr.ReadLine()) != null)
@@ -152,11 +146,11 @@ namespace OpenCCNET
             /// <param name="dictionaryNames">字典名称</param>
             private static IDictionary<string, string> LoadDictionaryReversed(params string[] dictionaryNames)
             {
-                var dictionaryPaths = dictionaryNames.Select(name => Path.Combine(_dictionaryDirectory, $"{name}.txt"));
+                var dictionaryPaths = dictionaryNames.Select(name => $"OpenCCNET.Dictionary.{name}.txt");
                 var dictionary = new Dictionary<string, string>();
                 foreach (var path in dictionaryPaths)
                 {
-                    using (var sr = new StreamReader(path))
+                    using (var sr = new StreamReader(typeof(ZhDictionary).Assembly.GetManifestResourceStream(path) ?? throw new InvalidOperationException($"Missing dictionary: {path}")))
                     {
                         string line;
                         while ((line = sr.ReadLine()) != null)
